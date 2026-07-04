@@ -5,5 +5,4 @@ __pycache__
 *.pyc
 server.log
 server.err.log
-static
 .pytest_cache
