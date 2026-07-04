@@ -14,6 +14,7 @@ const hintBox = document.getElementById("hintBox");
 
 let selectedFile = null;
 let previewUrl = null;
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 
 function setStatus(text) {
   modelStatus.textContent = text;
@@ -22,6 +23,15 @@ function setStatus(text) {
 function setFile(file) {
   if (!file || !file.type.startsWith("image/")) {
     setStatus("Imagen no valida");
+    return;
+  }
+
+  if (file.size > MAX_IMAGE_BYTES) {
+    setStatus("Imagen muy grande");
+    resultLabel.textContent = "Archivo grande";
+    confidenceValue.textContent = "--";
+    resultMessage.textContent = "Selecciona una imagen menor a 4 MB para Vercel.";
+    hintBox.textContent = "Puedes comprimir la foto o recortarla antes de subirla.";
     return;
   }
 

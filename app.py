@@ -5,8 +5,8 @@ from flask import Flask, jsonify, render_template, request
 from model_utils import CLASS_NAMES, MODEL_PATH, predict_leaf_image
 
 
-app = Flask(__name__)
-app.config["MAX_CONTENT_LENGTH"] = 12 * 1024 * 1024
+app = Flask(__name__, static_folder="public/static", static_url_path="/static")
+app.config["MAX_CONTENT_LENGTH"] = 4 * 1024 * 1024
 
 
 @app.get("/")
@@ -46,6 +46,11 @@ def predict():
         return jsonify({"error": "No se pudo analizar la imagen."}), 500
 
     return jsonify(result)
+
+
+@app.errorhandler(413)
+def file_too_large(_error):
+    return jsonify({"error": "La imagen supera el limite de 4 MB."}), 413
 
 
 if __name__ == "__main__":

@@ -29,6 +29,28 @@ http://127.0.0.1:5000
 > carpeta profunda, clona la repo en una ruta corta como `C:\coffee-app` o
 > habilita Windows Long Paths.
 
+## Desplegar en Vercel
+
+Esta repo esta preparada para Vercel con:
+
+- `app.py` como entrypoint Flask.
+- `vercel.json` con `maxDuration` e inclusion del modelo.
+- `public/static` para assets CSS/JS.
+- Limite de imagen de 4 MB por las restricciones de Vercel Functions.
+
+Deploy con CLI:
+
+```bash
+vercel
+vercel --prod
+```
+
+Si el build falla por tamano de TensorFlow/modelo, agrega en Vercel la variable:
+
+```text
+VERCEL_SUPPORT_LARGE_FUNCTIONS=1
+```
+
 ## Modelo
 
 La app reconstruye la arquitectura VGG16 usada en el notebook:
