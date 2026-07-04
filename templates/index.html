@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coffee Leaf AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="workspace" aria-label="Clasificador de hojas de cafeto">
+      <div class="scan-panel">
+        <div class="brand-row">
+          <div>
+            <p class="eyebrow">VGG16 Transfer Learning</p>
+            <h1>Clasificador de hojas de cafeto</h1>
+          </div>
+          <span class="status-pill" id="modelStatus">Modelo listo</span>
+        </div>
+
+        <label class="dropzone" id="dropzone" for="imageInput">
+          <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp" hidden>
+          <div class="preview-stage" id="previewStage">
+            <img id="previewImage" alt="Vista previa de la hoja">
+            <div class="empty-state" id="emptyState">
+              <span class="leaf-mark" aria-hidden="true"></span>
+              <strong>Sube una hoja</strong>
+              <small>JPG, PNG, WEBP o BMP</small>
+            </div>
+            <div class="radar-grid" aria-hidden="true"></div>
+            <div class="radar-line" id="radarLine" aria-hidden="true"></div>
+            <div class="sample-points" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </label>
+
+        <div class="controls">
+          <button class="secondary-btn" id="clearBtn" type="button">Limpiar</button>
+          <button class="primary-btn" id="predictBtn" type="button" disabled>
+            <span>Predecir</span>
+          </button>
+        </div>
+      </div>
+
+      <aside class="result-panel" aria-label="Resultado de prediccion">
+        <div class="result-header">
+          <p class="eyebrow">Resultado</p>
+          <span class="pulse-dot" id="resultPulse" aria-hidden="true"></span>
+        </div>
+
+        <div class="prediction-card" id="predictionCard">
+          <p class="result-label" id="resultLabel">Esperando imagen</p>
+          <strong class="confidence" id="confidenceValue">0%</strong>
+          <p class="result-message" id="resultMessage">El panel mostrara la clase estimada y la confianza del modelo.</p>
+        </div>
+
+        <div class="probability-list" id="probabilityList">
+          {% for class_name in classes %}
+          <div class="probability-row">
+            <div class="probability-meta">
+              <span>{{ class_name }}</span>
+              <strong>0%</strong>
+            </div>
+            <div class="bar-track"><span style="width: 0%"></span></div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="note-box" id="hintBox">
+          Diagnostico automatico de apoyo. Verifica el resultado con inspeccion agronomica.
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
